@@ -1,0 +1,3 @@
+[submodule "BinanceSelenium"]
+	path = BinanceSelenium
+	url = git@github.com:tttienthinh/BinanceSelenium.git

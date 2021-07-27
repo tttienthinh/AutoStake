@@ -6,8 +6,8 @@ block_cipher = None
 
 a = Analysis(['main.py'],
              pathex=['C:\\Users\\trant\\Documents\\GitHub\\AutoStake\\src'],
-             binaries=[],
-             datas=[],
+             binaries=[('drivers\\*.exe', 'drivers\\')],
+             datas=[('data/*', 'data/')],
              hiddenimports=[],
              hookspath=[],
              hooksconfig={},

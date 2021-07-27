@@ -1,0 +1,22 @@
+1627404840919	geckodriver	INFO	Listening on 127.0.0.1:50437
+1627404843966	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\trant\\AppData\\Local\\Temp\\rust_mozprofilenYBL3P"
+1627404846962	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\trant\\AppData\\Local\\Temp\\rust_mozprofilenYBL3P\\search.json.mozlz4", (void 0)))
+1627404868322	Marionette	INFO	Listening on port 50445
+1627404870307	Marionette	WARN	TLS certificate errors will be ignored for this session
+console.error: services.settings: 
+  main/doh-providers Signature failed  InvalidSignatureError: Invalid content signature (main/doh-providers)
+console.error: services.settings: 
+  main/doh-providers local data was corrupted
+console.warn: services.settings: main/doh-providers Signature verified failed. Retry from scratch
+console.error: services.settings: 
+  main/doh-config Signature failed  InvalidSignatureError: Invalid content signature (main/doh-config)
+console.error: services.settings: 
+  main/doh-config local data was corrupted
+console.warn: services.settings: main/doh-config Signature verified failed. Retry from scratch
+console.log: WebExtensions: reset-default-search: starting.
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+1627406585812	Marionette	INFO	Stopped listening on port 50445
+for this session
+1627404958024	Marionette	INFO	Stopped listening on port 50516

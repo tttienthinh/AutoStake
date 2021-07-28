@@ -2,3 +2,4 @@
 venv
 .gitignore
 src/bs.py
+replit/env.json

@@ -19,3 +19,13 @@ JavaScript error: , line 0: NotFoundError: No such JSWindowActor 'MarionetteEven
 1627575411459	geckodriver	INFO	Listening on 127.0.0.1:60709
 1627575414852	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\trant\\AppData\\Local\\Temp\\rust_mozprofile31dePH"
 1627575419125	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\trant\\AppData\\Local\\Temp\\rust_mozprofile31dePH\\search.json.mozlz4", (void 0)))
+1627575444698	Marionette	INFO	Listening on port 60718
+1627575444896	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1627575506214	Marionette	INFO	Stopped listening on port 60718

@@ -27,13 +27,7 @@ def api(api, params):
     return ans
 
 def get_driver():
-    # Windows
-    executable_list = [
-        ("drivers/geckodriver-64.exe", webdriver.Firefox), 
-        ("drivers/geckodriver-32.exe", webdriver.Firefox), 
-        ("drivers/chromedriver91-32.exe", webdriver.Chrome),  
-        ("drivers/chromedriver92-32.exe", webdriver.Chrome)
-    ]
+
     # Mac
     executable_list = [
         ("drivers/chromedriver91-mac", webdriver.Chrome),
@@ -49,7 +43,13 @@ def get_driver():
         ("drivers/geckodriver-linux64", webdriver.Firefox),
         ("drivers/geckodriver-linux32", webdriver.Firefox),
     ]
-
+    # Windows
+    executable_list = [
+        ("drivers/geckodriver-64.exe", webdriver.Firefox), 
+        ("drivers/geckodriver-32.exe", webdriver.Firefox), 
+        ("drivers/chromedriver91-32.exe", webdriver.Chrome),  
+        ("drivers/chromedriver92-32.exe", webdriver.Chrome)
+    ]
     for (executable, w_driver) in executable_list:
         try:
             driver = w_driver(executable_path=executable)
@@ -100,7 +100,7 @@ else:
     input("Enter when login is done : ")
 
     ans = input("Would you like to make a donation ? [y/n] : ")
-    if credit <= 0 or ans.upper() != "Y":
+    if credit <= 0 or ans.upper() == "Y":
         # Donation
         log(f"You have {credit} $ in your BinanceStake credit")
         try:
@@ -121,7 +121,7 @@ else:
     else:
         # Staking tokens
         b_driver.stake_page()
-        tokens = json.load(open("tokens.json", "r"))
+        tokens = json.load(open("data/tokens.json", "r"))
         log(tokens)
         ans = input("Would you like to continue staking this ? [y/n] : ")
         if ans.upper() != "Y":
@@ -156,7 +156,7 @@ else:
                     if {'TOKEN': asset, 'DAYS': duration} in tokens:
                         lock_amount, amount, fees = b_driver.stake(asset, duration)
                         log(f"Staked Successfully !")
-                        api("api/fees/",
+                        """api("api/fees/",
                             {
                                 "ip": ip,
                                 "token": token,
@@ -164,7 +164,7 @@ else:
                                 "USDT_amount": amount,
                                 "USDT_fees": fees,
                             }
-                        )                       
+                        )"""                       
             
             b_driver.stake_page()
             time.sleep(600 - (time.time() % 600)) # Executing every 10 minutes

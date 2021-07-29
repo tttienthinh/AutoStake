@@ -2,7 +2,7 @@
  True,
  False,
  True,
- 'c:\\users\\trant\\appdata\\local\\programs\\python\\python38\\lib\\site-packages\\PyInstaller\\bootloader\\images\\icon-console.ico',
+ 'Binance_Logo.ico',
  None,
  False,
  False,
@@ -54,7 +54,7 @@
  [],
  False,
  False,
- 1627408918,
+ 1627562248,
  [('run.exe',
    'c:\\users\\trant\\appdata\\local\\programs\\python\\python38\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit\\run.exe',
    'EXECUTABLE')])

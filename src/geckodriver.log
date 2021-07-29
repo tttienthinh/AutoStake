@@ -20,3 +20,13 @@ JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
 1627406585812	Marionette	INFO	Stopped listening on port 50445
 for this session
 1627404958024	Marionette	INFO	Stopped listening on port 50516
+1627573009973	geckodriver	INFO	Listening on 127.0.0.1:50157
+1627573012913	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\trant\\AppData\\Local\\Temp\\rust_mozprofileodFI26"
+1627573018465	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\trant\\AppData\\Local\\Temp\\rust_mozprofileodFI26\\search.json.mozlz4", (void 0)))
+1627573042622	Marionette	INFO	Listening on port 50170
+1627573043739	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 125: Error: Invalid autocomplete selectedIndex
+JavaScript error: resource://gre/modules/LoginManagerChild.jsm, line 194: NS_ERROR_XPC_JAVASCRIPT_ERROR_WITH_DETAILS: [JavaScript Error: "Invalid autocomplete selectedIndex" {file: "resource://gre/actors/AutoCompleteChild.jsm" line: 125}]'[JavaScript Error: "Invalid autocomplete selectedIndex" {file: "resource://gre/actors/AutoCompleteChild.jsm" line: 125}]' when calling method: [nsIAutoCompletePopup::selectedIndex]
+1627573136202	Marionette	INFO	Stopped listening on port 50170

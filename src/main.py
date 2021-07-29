@@ -27,7 +27,6 @@ def api(api, params):
     return ans
 
 def get_driver():
-
     # Mac
     executable_list = [
         ("drivers/chromedriver91-mac", webdriver.Chrome),
@@ -79,35 +78,40 @@ def log(message):
     print(message)
     print("====================")
 
-log("Welcome to AutoStake !")
+log(f"Welcome to AutoStake {version}")
 ip = get_ip()
-"""ans = api("api/startup/",
+ans = api("api/startup/",
     {
         "ip": "98.65.32.456",
         "version": version
     }
 )
-credit = ans["credit"]"""
-credit = 10
+credit = ans["credit"]
 ok, driver = get_driver()
 
 if not ok:
     input("Please install Firefox (geckodriver) or Chrome (chromedriver) and download drivers/")
+    api("api/log/",
+        {
+            "ip": "98.65.32.456",
+            "version": "0.0.1",
+            "log": "Driver error"
+        }
+    )
 else:
     # Connection
     b_driver = BS(driver)
-    log(f"You have {credit} $ in your BinanceStake credit")
     input("Enter when login is done : ")
 
+    log(f"You have {credit} $ in your BinanceStake credit")
     ans = input("Would you like to make a donation ? [y/n] : ")
     if credit <= 0 or ans.upper() == "Y":
         # Donation
-        log(f"You have {credit} $ in your BinanceStake credit")
         try:
             b_driver.donation(0, ip, "tranthuongtienthinh@gmail.com")
         except:
             pass
-        log(f"Please send this email to tranthuongtienthinh@gmail.com to confirm transaction \n\
+        log(f"Make a P2P transaction to this email tranthuongtienthinh@gmail.com\nAnd then send to tranthuongtienthinh@gmail.com to confirm transaction the message below \n\
             --- \n\
             ip : {ip} \n\
             email : <Enter the email you use to make the transaction> \n\
@@ -137,8 +141,8 @@ else:
                         "TOKEN": token,
                         "DAYS": days
                     })
-            json.dump(tokens, open("tokens.json", "w"))
-        log(f"I will look to stake \n {tokens}")
+            json.dump(tokens, open("data/tokens.json", "w"))
+        log(f"I will look to stake every 10 minutes, don't close the console \n {tokens}")
 
         # Searching
         past_result = []
@@ -150,13 +154,12 @@ else:
                     asset = data['asset']
                     duration = data['duration']
                     apy = data['APY']
-                    print(f"Found new release \
-                    {asset} {duration} days {apy}% APY")
+                    print(f"Found new release     {asset} {duration} days {apy}% APY")
                     
                     if {'TOKEN': asset, 'DAYS': duration} in tokens:
                         lock_amount, amount, fees = b_driver.stake(asset, duration)
-                        log(f"Staked Successfully !")
-                        """api("api/fees/",
+                        log(f"Staked Successfully {lock_amount} {asset}!")
+                        api("api/fees/",
                             {
                                 "ip": ip,
                                 "token": token,
@@ -164,8 +167,7 @@ else:
                                 "USDT_amount": amount,
                                 "USDT_fees": fees,
                             }
-                        )"""                       
-            
+                        )
             b_driver.stake_page()
             time.sleep(600 - (time.time() % 600)) # Executing every 10 minutes
         

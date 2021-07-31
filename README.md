@@ -12,7 +12,7 @@ Our bot analyzes the data so that once a staking cryptocurrency is listed, or in
 Be careful, the praiseworthy Binance Locked Staking products sell very quickly, hence the aim to get information faster.
 
 # Download
-https://github.com/tttienthinh/AutoStake/releases/download/0.0.1/AutoStake-Setup.exe
+https://github.com/tttienthinh/AutoStake/releases
 
 # Source
 https://tttienthinh.github.io/AutoStake/

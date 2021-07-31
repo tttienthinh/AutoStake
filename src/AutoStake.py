@@ -28,14 +28,6 @@ def api(api, params):
     return ans
 
 def get_driver():
-    # Mac
-    executable_list = [
-        ("drivers/chromedriver91-mac", webdriver.Chrome),
-        ("drivers/geckodriver-mac", webdriver.Firefox),
-        ("drivers/chromedriver92-mac64", webdriver.Chrome),
-        ("drivers/chromedriver91-macm1", webdriver.Chrome),
-        ("drivers/chromedriver92-macm1", webdriver.Chrome),
-    ]
     # Linux
     executable_list = [
         ("drivers/chromedriver91-linux64", webdriver.Chrome),
@@ -49,6 +41,14 @@ def get_driver():
         ("drivers/geckodriver-32.exe", webdriver.Firefox), 
         ("drivers/chromedriver91-32.exe", webdriver.Chrome),  
         ("drivers/chromedriver92-32.exe", webdriver.Chrome)
+    ]
+    # Mac
+    executable_list = [
+        ("drivers/chromedriver91-mac", webdriver.Chrome),
+        ("drivers/geckodriver-mac", webdriver.Firefox),
+        ("drivers/chromedriver92-mac64", webdriver.Chrome),
+        ("drivers/chromedriver91-macm1", webdriver.Chrome),
+        ("drivers/chromedriver92-macm1", webdriver.Chrome),
     ]
     for (executable, w_driver) in executable_list:
         try:

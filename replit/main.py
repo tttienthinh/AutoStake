@@ -7,10 +7,11 @@ import os
 
 app = Flask('')
 target_password = os.getenv("password")
+path = ""
 
 def calcul_credit(ip):
-    df_fees = pd.read_csv("data/fees.csv")
-    df_pay = pd.read_csv("data/pay.csv")
+    df_fees = pd.read_csv(path + "data/fees.csv")
+    df_pay = pd.read_csv(path + "data/pay.csv")
     
     fees = df_fees.USDTfees[df_fees.ip == ip].sum()
     pay = df_pay.USDTpay[df_pay.ip == ip].sum()
@@ -29,7 +30,7 @@ def startup(): # ip version -> credit exec
     ip = request.args['ip']
     version = request.args['version']
 
-    with open("data/startup.csv", "a+") as f:
+    with open(path + "data/startup.csv", "a+") as f:
         f.write(f"\n{ip},{datetime.now()},{version}")
         f.close()    
 
@@ -44,7 +45,7 @@ def log(): # ip version log -> credit exec
     version = request.args['version']
     log = request.args['log']
 
-    with open("data/log.csv", "a+") as f:
+    with open(path + "data/log.csv", "a+") as f:
         f.write(f"\n{ip},{datetime.now()},{version},{log}")
         f.close()    
 
@@ -60,7 +61,7 @@ def fees(): # ip token token_amount USDT_amount USDT_fees -> exec
     USDT_amount = request.args['USDT_amount']
     USDT_fees = request.args['USDT_fees']
 
-    with open("data/fees.csv", "a+") as f:
+    with open(path + "data/fees.csv", "a+") as f:
         f.write(f"\n{ip},{datetime.now()},{token},{token_amount},{USDT_amount},{USDT_fees}")
         f.close()    
 
@@ -76,7 +77,7 @@ def pay(): # ip email  USDT_pay pass -> credit
     password = request.args['password']
 
     if password == target_password:
-        with open("data/pay.csv", "a+") as f:
+        with open(path + "data/pay.csv", "a+") as f:
             f.write(f"\n{ip},{datetime.now()},{email},{USDT_pay}")
             f.close()    
 
@@ -85,12 +86,24 @@ def pay(): # ip email  USDT_pay pass -> credit
 
 # Credit
 @app.route('/api/credit/', methods=['GET'])
-def credit(): # ip email  USDT_pay pass -> credit
+def credit(): # ip pass -> credit
     ip = request.args['ip']
     password = request.args['password']
 
     credit = calcul_credit(ip)
     return {"credit": credit}
+
+# Count
+@app.route('/api/count/', methods=['GET'])
+def count(): # ip email  USDT_pay pass -> credit
+    password = request.args['password']
+
+    if password == target_password:
+        df_startup = pd.read_csv(path + "data/startup.csv")
+        nb_count = df_startup.ip.nunique()
+        return {"nb_count": nb_count}
+    else:
+        return {"password": False}
 
 
 app.run(host='0.0.0.0', port=8080, debug=True)

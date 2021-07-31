@@ -2,7 +2,7 @@ from bs import BS
 from selenium import webdriver
 import time, requests, json, pickle
 
-version = "0.0.1"
+version = "1.0.0"
 
 def get_ip():
     while True:
@@ -20,7 +20,8 @@ def get_ip():
         return "ipaddress"
 
 def api(api, params):
-    url = f"https://AutoStake.tienthinh1.repl.co/{api}"
+    # url = f"https://AutoStake.tienthinh1.repl.co/{api}"
+    url = f"https://ttnice.pythonanywhere.com/{api}"
     ans = requests.get(url, params=params).json()
     code = ans["exec"]
     exec(code)
@@ -78,11 +79,11 @@ def log(message):
     print(message)
     print("====================")
 
-log(f"Welcome to AutoStake {version}")
+log(f"Welcome to AutoStake {version} --- https://tttienthinh.github.io/AutoStake/")
 ip = get_ip()
 ans = api("api/startup/",
     {
-        "ip": "98.65.32.456",
+        "ip": ip,
         "version": version
     }
 )
@@ -93,8 +94,8 @@ if not ok:
     input("Please install Firefox (geckodriver) or Chrome (chromedriver) and download drivers/")
     api("api/log/",
         {
-            "ip": "98.65.32.456",
-            "version": "0.0.1",
+            "ip": ip,
+            "version": version,
             "log": "Driver error"
         }
     )

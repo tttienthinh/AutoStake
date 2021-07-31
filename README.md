@@ -1,7 +1,9 @@
 # AutoStake
 
 Based on a BinanceSelenium module that I coded to control Binance website with Selenium.  
-Contact me if you want acces to this BinanceSelenium Repository, it is still in progress.
+Contact me if you want acces to this BinanceSelenium Repository, it is still in progress.  
+  
+This software will control Binance on your browser to Stake cryptos as soon as they are released. Automatically STAKE cryptos on Binance! 
 
 # Service
 We wrote code to send requests directly to the Binance database.

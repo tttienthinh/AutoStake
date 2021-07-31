@@ -91,7 +91,6 @@ credit = ans["credit"]
 ok, driver = get_driver()
 
 if not ok:
-    input("Please install Firefox (geckodriver) or Chrome (chromedriver) and download drivers/")
     api("api/log/",
         {
             "ip": ip,
@@ -99,6 +98,7 @@ if not ok:
             "log": "Driver error"
         }
     )
+    input("Please install Firefox (geckodriver) or Chrome (chromedriver) and download drivers/")
 else:
     # Connection
     b_driver = BS(driver)

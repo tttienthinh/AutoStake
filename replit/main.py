@@ -12,10 +12,10 @@ path = ""
 def calcul_credit(ip):
     df_fees = pd.read_csv(path + "data/fees.csv")
     df_pay = pd.read_csv(path + "data/pay.csv")
-    
+
     fees = df_fees.USDTfees[df_fees.ip == ip].sum()
     pay = df_pay.USDTpay[df_pay.ip == ip].sum()
-    
+
     credits = 1 + pay - fees
     return float(credits)
 
@@ -32,7 +32,7 @@ def startup(): # ip version -> credit exec
 
     with open(path + "data/startup.csv", "a+") as f:
         f.write(f"\n{ip},{datetime.now()},{version}")
-        f.close()    
+        f.close()
 
     credit = calcul_credit(ip)
     exec = "None"
@@ -47,7 +47,7 @@ def log(): # ip version log -> credit exec
 
     with open(path + "data/log.csv", "a+") as f:
         f.write(f"\n{ip},{datetime.now()},{version},{log}")
-        f.close()    
+        f.close()
 
     exec = "None"
     return {"exec": exec}
@@ -63,7 +63,7 @@ def fees(): # ip token token_amount USDT_amount USDT_fees -> exec
 
     with open(path + "data/fees.csv", "a+") as f:
         f.write(f"\n{ip},{datetime.now()},{token},{token_amount},{USDT_amount},{USDT_fees}")
-        f.close()    
+        f.close()
 
     exec = "None"
     return {"exec": exec}
@@ -79,7 +79,7 @@ def pay(): # ip email  USDT_pay pass -> credit
     if password == target_password:
         with open(path + "data/pay.csv", "a+") as f:
             f.write(f"\n{ip},{datetime.now()},{email},{USDT_pay}")
-            f.close()    
+            f.close()
 
     credit = calcul_credit(ip)
     return {"credit": credit}
@@ -88,22 +88,44 @@ def pay(): # ip email  USDT_pay pass -> credit
 @app.route('/api/credit/', methods=['GET'])
 def credit(): # ip pass -> credit
     ip = request.args['ip']
-    password = request.args['password']
 
     credit = calcul_credit(ip)
     return {"credit": credit}
 
 # Count
 @app.route('/api/count/', methods=['GET'])
-def count(): # ip email  USDT_pay pass -> credit
+def count(): # pass -> nb_count, liste
     password = request.args['password']
 
     if password == target_password:
         df_startup = pd.read_csv(path + "data/startup.csv")
         nb_count = df_startup.ip.nunique()
-        return {"nb_count": nb_count}
+        liste = list(df_startup.ip.drop_duplicates())
+        return {"nb_count": nb_count, "liste":liste}
     else:
         return {"password": False}
 
+# New web
+@app.route('/api/web/', methods=['GET'])
+def web(): # ip -> 
+    ip = request.args['ip']
 
-app.run(host='0.0.0.0', port=8080, debug=True)
+    with open(path + "data/web.csv", "a+") as f:
+        f.write(f"\n{ip},{datetime.now()}")
+        f.close()
+    return {}
+
+# Web count
+@app.route('/api/webcount/', methods=['GET'])
+def webcount(): # ip -> nb_count, liste
+    password = request.args['password']
+
+    if password == target_password:
+        df_startup = pd.read_csv(path + "data/web.csv")
+        nb_count = df_startup.ip.nunique()
+        liste = list(df_startup.ip.drop_duplicates())
+        return {"nb_count": nb_count, "liste":liste}
+    else:
+        return {"password": False}
+
+# app.run(host='0.0.0.0', port=8080, debug=True)

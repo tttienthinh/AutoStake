@@ -209,15 +209,9 @@ class BS:
         self.stake_page()
         time.sleep(3)
         try:
-            self.driver.execute_script(
-                f"""document.evaluate(\
-                    "//div[div[contains(text(),'{crypto}')]]/div/button", \
-                    document, \
-                    null, \
-                    XPathResult.FIRST_ORDERED_NODE_TYPE, \
-                    null\
-                ).singleNodeValue.click()"""
-            )
+            self.driver.find_element_by_xpath(
+                f"//div[div/div[contains(text(),'{crypto}')]]/div/div[5]"
+            ).click()
             time.sleep(3)
             self.driver.find_element_by_xpath(
                 f"//div[@class='css-18ibghl']/div/button[contains(text(),'{days}')]"

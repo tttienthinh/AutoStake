@@ -28,13 +28,6 @@ def api(api, params):
     return ans
 
 def get_driver():
-    # Linux
-    executable_list = [
-        ("drivers/chromedriver91-linux64", webdriver.Chrome),
-        ("drivers/chromedriver92-linux64", webdriver.Chrome),
-        ("drivers/geckodriver-linux64", webdriver.Firefox),
-        ("drivers/geckodriver-linux32", webdriver.Firefox),
-    ]
     # Windows
     executable_list = [
         ("drivers/geckodriver-64.exe", webdriver.Firefox), 
@@ -49,6 +42,13 @@ def get_driver():
         ("drivers/chromedriver92-mac64", webdriver.Chrome),
         ("drivers/chromedriver91-macm1", webdriver.Chrome),
         ("drivers/chromedriver92-macm1", webdriver.Chrome),
+    ]
+    # Linux
+    executable_list = [
+        ("drivers/chromedriver91-linux64", webdriver.Chrome),
+        ("drivers/chromedriver92-linux64", webdriver.Chrome),
+        ("drivers/geckodriver-linux64", webdriver.Firefox),
+        ("drivers/geckodriver-linux32", webdriver.Firefox),
     ]
     for (executable, w_driver) in executable_list:
         try:
@@ -150,7 +150,9 @@ else:
         while True:
             print(time.asctime())
             result = binance()
+            new_result = []
             for data in result:
+                new_result.append(data)
                 if data not in past_result:
                     asset = data['asset']
                     duration = data['duration']
@@ -163,13 +165,13 @@ else:
                         ans = api("api/fees/",
                             {
                                 "ip": ip,
-                                "token": token,
+                                "token": asset,
                                 "token_amount": lock_amount,
                                 "USDT_amount": amount,
                                 "USDT_fees": fees,
                             }
                         )
-                        credit = ans["credit"]
+            past_result = new_result
             b_driver.stake_page()
             time.sleep(600 - (time.time() % 600)) # Executing every 10 minutes
         

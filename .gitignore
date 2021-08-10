@@ -1,6 +1,5 @@
 .idea
 venv
 .gitignore
-src/bs.py
 replit/env.json
 docs/assets/video/projet/Projet

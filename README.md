@@ -18,6 +18,7 @@ python3 main.py
 Then the program prompt you for the token you want to stake and for how long.  
 
 # Donation
+Please consider making a donation to support my work !
 
 ### On Binance P2P transfer (0 fees)
 tranthuongtienthinh@gmail.com
